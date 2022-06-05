@@ -1,5 +1,4 @@
-import { getContext, onMount } from 'svelte';
-import { get } from 'svelte/store';
+import { getContext } from 'svelte';
 import { contextKey } from '$lib/utils/resource-context';
 
 // Call this hook on this first page before you start the page transition.
@@ -23,7 +22,6 @@ export const usePageTransitionPrep = () => {
 			const transition = document.createDocumentTransition();
 			Array.from(sharedElements).forEach((elm, idx) => {
 				elm.style.pageTransitionTag = `target-${idx}`;
-				// transition.setElement(elm, `target-${idx}`);
 			});
 			transition.start(async () => {
 				resolve();
