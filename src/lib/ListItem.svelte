@@ -3,19 +3,14 @@
 	export let href;
 
 	import Icon from '$lib/Icon.svelte';
+	import { usePageTransitionPrep } from '$lib/utils/use-page-transition';
 
-	/* TODO
-	import { usePageTransitionPrep } from '../utils/use-page-transition'
+	const transitionNextState = usePageTransitionPrep();
 
-	const transitionNextState = usePageTransitionPrep()
-  const handleClick = async (e) => {
-    const elm = e.target.closest('a')
-    await transitionNextState(elm)
-  }
-
-	*/
-
-	function handleClick() {}
+	async function handleClick(e) {
+		const elm = e.target.closest('a');
+		await transitionNextState(elm);
+	}
 </script>
 
 <li class="p-3 hover:bg-slate-100 hover:text-slate-900">

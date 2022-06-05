@@ -5,13 +5,15 @@
 	export let nutrition;
 
 	import Nutrition from '$lib/Nutrition.svelte';
-
-	// import { usePageTransition } from '../../utils/use-page-transition'
-	// const ref = usePageTransition() TODO, ref was on first div
+	import { usePageTransition } from '$lib/utils/use-page-transition';
 </script>
 
-<div class={'flex flex-col items-center justify-center py-4 px-4 sm:flex-row'}>
+<div
+	class={'flex flex-col items-center justify-center py-4 px-4 sm:flex-row'}
+	use:usePageTransition
+>
 	<div class="flex flex-col items-center sm:w-2/4">
+		<!-- Inline style works around https://github.com/tailwindlabs/tailwindcss/issues/506 -->
 		<img
 			class="object-cover border-gray-100 border-2 rounded-full shared-element"
 			src={image}

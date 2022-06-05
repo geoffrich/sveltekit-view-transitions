@@ -2,6 +2,12 @@
 	import '../app.css';
 	import Navbar from '$lib/Navbar.svelte';
 	import Footer from '$lib/Footer.svelte';
+	import { initResourceContext } from '$lib/utils/resource-context';
+	import { navigating } from '$app/stores';
+
+	initResourceContext();
+
+	$: console.log('navigating', $navigating);
 </script>
 
 <svelte:head>
