@@ -11,9 +11,3 @@
 		<div class="text-xl shared-element" style:--transition-tag="h-{item.name}">{item.name}</div>
 	</a>
 </li>
-
-<style>
-	div {
-		page-transition-tag: var(--transition-tag);
-	}
-</style>

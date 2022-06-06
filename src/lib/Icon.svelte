@@ -17,9 +17,3 @@
 		/>
 	</div>
 </div>
-
-<style>
-	img {
-		page-transition-tag: var(--transition-tag);
-	}
-</style>

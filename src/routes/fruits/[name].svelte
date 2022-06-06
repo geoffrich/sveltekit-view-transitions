@@ -32,13 +32,3 @@
 		<Nutrition {amountPer} {nutrition} />
 	</div>
 </div>
-
-<style>
-	img {
-		page-transition-tag: var(--transition-tag);
-	}
-
-	h1 {
-		page-transition-tag: var(--transition-tag);
-	}
-</style>

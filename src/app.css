@@ -5,4 +5,5 @@
 
 .shared-element {
 	contain: paint;
+	page-transition-tag: var(--transition-tag);
 }

@@ -9,3 +9,5 @@ TODO:
 - remove React-isms (useX)
 - clean up console logs
 - layout shifting during transition
+- instead of shared-element class, data- attributes?
+- better way instead of having to register per-page -- possibly call prepare functions with {from, to} allowlist
