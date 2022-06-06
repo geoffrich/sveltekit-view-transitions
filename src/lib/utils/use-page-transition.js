@@ -1,4 +1,6 @@
+import { afterNavigate } from '$app/navigation';
 import { getTransitionContext } from '$lib/utils/resource-context';
+import { onDestroy } from 'svelte';
 
 // Call this hook on this first page before you start the page transition.
 // For Shared Element Transitions, you need to call the transition.start()
@@ -29,20 +31,21 @@ export const getPageTransitionTrigger = () => {
 // transition.setElement() method. When the resolver function is called,
 // the transition is initiated between the captured images and newly set
 // shared elements.
-export const pageTransition = (node) => {
+export const pageTransition = () => {
 	const transitionStore = getTransitionContext();
-	const unsub = transitionStore.subscribe((transition) => {
-		if (!transition) {
-			return;
-		}
-		const { resolver } = transition;
-		resolver();
+	let unsub;
+	afterNavigate(() => {
+		unsub = transitionStore.subscribe((transition) => {
+			if (!transition) {
+				return;
+			}
+			const { resolver } = transition;
+			resolver();
+		});
 	});
 
-	return {
-		destroy: () => {
-			unsub();
-			transitionStore.set(null);
-		}
-	};
+	onDestroy(() => {
+		unsub?.();
+		transitionStore.set(null);
+	});
 };

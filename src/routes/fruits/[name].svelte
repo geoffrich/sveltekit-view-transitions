@@ -6,9 +6,11 @@
 
 	import Nutrition from '$lib/Nutrition.svelte';
 	import { pageTransition } from '$lib/utils/use-page-transition';
+
+	pageTransition();
 </script>
 
-<div class={'flex flex-col items-center justify-center py-4 px-4 sm:flex-row'} use:pageTransition>
+<div class={'flex flex-col items-center justify-center py-4 px-4 sm:flex-row'}>
 	<div class="flex flex-col items-center sm:w-2/4">
 		<!-- Inline style works around https://github.com/tailwindlabs/tailwindcss/issues/506 -->
 		<img
