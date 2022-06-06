@@ -3,9 +3,9 @@
 	export let href;
 
 	import Icon from '$lib/Icon.svelte';
-	import { usePageTransitionPrep } from '$lib/utils/use-page-transition';
+	import { getPageTransitionTrigger } from '$lib/utils/use-page-transition';
 
-	const transitionNextState = usePageTransitionPrep();
+	const transitionNextState = getPageTransitionTrigger();
 
 	async function handleClick(e) {
 		// TODO: this only works on click, not back/forward
