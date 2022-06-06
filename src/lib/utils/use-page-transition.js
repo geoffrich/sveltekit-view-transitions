@@ -15,13 +15,10 @@ export const getPageTransitionTrigger = () => {
 			return null;
 		}
 
-		return new Promise((resolve) => {
-			const transition = document.createDocumentTransition();
-			transition.start(async () => {
-				resolve();
-				await new Promise((resolver) => {
-					transitionStore.set({ transition, resolver });
-				});
+		const transition = document.createDocumentTransition();
+		transition.start(async () => {
+			await new Promise((resolver) => {
+				transitionStore.set({ transition, resolver });
 			});
 		});
 	};
