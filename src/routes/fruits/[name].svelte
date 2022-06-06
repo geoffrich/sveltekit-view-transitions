@@ -5,9 +5,13 @@
 	export let nutrition;
 
 	import Nutrition from '$lib/Nutrition.svelte';
-	import { prepareTransitionToPage } from '$lib/utils/use-page-transition';
+	import {
+		prepareTransitionToPage,
+		prepareTransitionFromPage
+	} from '$lib/utils/use-page-transition';
 
 	prepareTransitionToPage();
+	prepareTransitionFromPage();
 </script>
 
 <div class={'flex flex-col items-center justify-center py-4 px-4 sm:flex-row'}>
@@ -21,7 +25,7 @@
 			alt={`picture of ${name}`}
 			style:--transition-tag={name}
 		/>
-		<h1 class="text-4xl font-bold mt-4">{name}</h1>
+		<h1 class="text-4xl font-bold mt-4 shared-element" style:--transition-tag="h-{name}">{name}</h1>
 	</div>
 
 	<div class="sm:w-2/4 w-full">
@@ -31,6 +35,10 @@
 
 <style>
 	img {
+		page-transition-tag: var(--transition-tag);
+	}
+
+	h1 {
 		page-transition-tag: var(--transition-tag);
 	}
 </style>
