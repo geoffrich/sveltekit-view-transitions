@@ -9,8 +9,7 @@ import { getTransitionContext } from '$lib/utils/resource-context';
 export const getPageTransitionTrigger = () => {
 	const transitionStore = getTransitionContext();
 
-	return (elm) => {
-		const sharedElements = elm.querySelectorAll('.shared-element');
+	return () => {
 		// Feature detection
 		if (!document.createDocumentTransition) {
 			return null;
@@ -18,9 +17,6 @@ export const getPageTransitionTrigger = () => {
 
 		return new Promise((resolve) => {
 			const transition = document.createDocumentTransition();
-			Array.from(sharedElements).forEach((elm, idx) => {
-				elm.style.pageTransitionTag = `target-${idx}`;
-			});
 			transition.start(async () => {
 				resolve();
 				await new Promise((resolver) => {
@@ -43,10 +39,6 @@ export const pageTransition = (node) => {
 			return;
 		}
 		const { resolver } = transition;
-		const sharedElements = node.querySelectorAll('.shared-element');
-		Array.from(sharedElements).forEach((elm, idx) => {
-			elm.style.pageTransitionTag = `target-${idx}`;
-		});
 		resolver();
 	});
 

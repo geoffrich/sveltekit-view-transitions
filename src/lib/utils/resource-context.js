@@ -1,13 +1,16 @@
-import { setContext, getContext } from 'svelte';
+import { setContext, getContext, hasContext } from 'svelte';
 import { writable } from 'svelte/store';
 
 const contextKey = 'transition';
 
 export function initTransitionContext() {
-	const store = writable(null);
-	setContext(contextKey, store);
+	if (hasContext(contextKey)) return getContext(contextKey);
+	return setContext(contextKey, writable(null));
 }
 
 export function getTransitionContext() {
+	if (!hasContext(contextKey)) {
+		return initTransitionContext();
+	}
 	return getContext(contextKey);
 }

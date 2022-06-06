@@ -11,7 +11,7 @@
 		// TODO: this only works on click, not back/forward
 		const elm = e.target.closest('a');
 		// did this await make next wait for navigation?
-		await transitionNextState(elm);
+		await transitionNextState();
 	}
 </script>
 
