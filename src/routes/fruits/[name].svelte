@@ -5,9 +5,9 @@
 	export let nutrition;
 
 	import Nutrition from '$lib/Nutrition.svelte';
-	import { pageTransition } from '$lib/utils/use-page-transition';
+	import { prepareTransitionToPage } from '$lib/utils/use-page-transition';
 
-	pageTransition();
+	prepareTransitionToPage();
 </script>
 
 <div class={'flex flex-col items-center justify-center py-4 px-4 sm:flex-row'}>

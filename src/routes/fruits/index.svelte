@@ -2,6 +2,9 @@
 	export let items;
 
 	import ListItem from '$lib/ListItem.svelte';
+	import { prepareTransitionFromPage } from '$lib/utils/use-page-transition';
+
+	prepareTransitionFromPage();
 </script>
 
 <div class={'flex-col items-center justify-center py-4 px-4'}>

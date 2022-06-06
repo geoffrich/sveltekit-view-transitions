@@ -1,4 +1,4 @@
-import { afterNavigate } from '$app/navigation';
+import { afterNavigate, beforeNavigate } from '$app/navigation';
 import { getTransitionContext } from '$lib/utils/resource-context';
 import { onDestroy } from 'svelte';
 
@@ -8,10 +8,10 @@ import { onDestroy } from 'svelte';
 // Document Object Model (DOM) modification or setting of new shared
 // elements inside the callback so that this hook returns the promise and
 // defers to the callback resolve.
-export const getPageTransitionTrigger = () => {
+export const prepareTransitionFromPage = () => {
 	const transitionStore = getTransitionContext();
 
-	return () => {
+	beforeNavigate(() => {
 		// Feature detection
 		if (!document.createDocumentTransition) {
 			return null;
@@ -23,7 +23,7 @@ export const getPageTransitionTrigger = () => {
 				transitionStore.set({ transition, resolver });
 			});
 		});
-	};
+	});
 };
 
 // Call this hook on the second page. Inside the useEffect hook, you can
@@ -31,7 +31,7 @@ export const getPageTransitionTrigger = () => {
 // transition.setElement() method. When the resolver function is called,
 // the transition is initiated between the captured images and newly set
 // shared elements.
-export const pageTransition = () => {
+export const prepareTransitionToPage = () => {
 	const transitionStore = getTransitionContext();
 	let unsub;
 	afterNavigate(() => {
