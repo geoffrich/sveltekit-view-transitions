@@ -17,6 +17,7 @@
 			width="240"
 			style:height="240px"
 			alt={`picture of ${name}`}
+			style:--transition-tag={name}
 		/>
 		<h1 class="text-4xl font-bold mt-4">{name}</h1>
 	</div>
@@ -25,3 +26,9 @@
 		<Nutrition {amountPer} {nutrition} />
 	</div>
 </div>
+
+<style>
+	img {
+		page-transition-tag: var(--transition-tag);
+	}
+</style>

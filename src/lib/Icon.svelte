@@ -1,7 +1,7 @@
 <script>
 	export let src;
 	export let name;
-	export let className;
+	export let className = '';
 </script>
 
 <div class="mr-8">
@@ -12,7 +12,14 @@
 			{src}
 			width="80"
 			style:height="80px"
+			style:--transition-tag={name}
 			alt={`picture of ${name}`}
 		/>
 	</div>
 </div>
+
+<style>
+	img {
+		page-transition-tag: var(--transition-tag);
+	}
+</style>
