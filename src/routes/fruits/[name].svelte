@@ -5,13 +5,6 @@
 	export let nutrition;
 
 	import Nutrition from '$lib/Nutrition.svelte';
-	import {
-		prepareTransitionToPage,
-		prepareTransitionFromPage
-	} from '$lib/utils/use-page-transition';
-
-	prepareTransitionToPage();
-	prepareTransitionFromPage();
 </script>
 
 <svelte:head>

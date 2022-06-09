@@ -2,13 +2,6 @@
 	export let items;
 
 	import ListItem from '$lib/ListItem.svelte';
-	import {
-		prepareTransitionFromPage,
-		prepareTransitionToPage
-	} from '$lib/utils/use-page-transition';
-
-	prepareTransitionFromPage();
-	prepareTransitionToPage();
 </script>
 
 <svelte:head>

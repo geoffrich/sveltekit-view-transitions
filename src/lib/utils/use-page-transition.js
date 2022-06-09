@@ -1,6 +1,5 @@
 import { afterNavigate, beforeNavigate } from '$app/navigation';
 import { getTransitionContext } from '$lib/utils/resource-context';
-import { onDestroy } from 'svelte';
 
 // Call this hook on this first page before you start the page transition.
 // For Shared Element Transitions, you need to call the transition.start()
@@ -8,10 +7,14 @@ import { onDestroy } from 'svelte';
 // Document Object Model (DOM) modification or setting of new shared
 // elements inside the callback so that this hook returns the promise and
 // defers to the callback resolve.
-export const prepareTransitionFromPage = () => {
+export const preparePageTransition = () => {
 	const transitionStore = getTransitionContext();
+	let unsub;
 
+	// before navigating, start a new transition
 	beforeNavigate(({ to }) => {
+		unsub?.();
+
 		// Feature detection
 		if (!document.createDocumentTransition) {
 			return;
@@ -32,16 +35,6 @@ export const prepareTransitionFromPage = () => {
 			}));
 		});
 	});
-};
-
-// Call this hook on the second page. Inside the useEffect hook, you can
-// refer to the actual DOM element and set them as shared elements with the
-// transition.setElement() method. When the resolver function is called,
-// the transition is initiated between the captured images and newly set
-// shared elements.
-export const prepareTransitionToPage = () => {
-	const transitionStore = getTransitionContext();
-	let unsub;
 
 	afterNavigate(({ to }) => {
 		const transitionKey = to.pathname;
@@ -53,9 +46,5 @@ export const prepareTransitionToPage = () => {
 			const { resolver } = transition;
 			resolver();
 		});
-	});
-
-	onDestroy(() => {
-		unsub?.();
 	});
 };
