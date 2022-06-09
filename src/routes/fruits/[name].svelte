@@ -14,6 +14,10 @@
 	prepareTransitionFromPage();
 </script>
 
+<svelte:head>
+	<title>Fruits - {name}</title>
+</svelte:head>
+
 <div class={'flex flex-col items-center justify-center py-4 px-4 sm:flex-row'}>
 	<div class="flex flex-col items-center sm:w-2/4">
 		<!-- Inline style works around https://github.com/tailwindlabs/tailwindcss/issues/506 -->

@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Instant & Seamless DEMO</title>
+	<title>Shared Element Transitions in SvelteKit</title>
 </svelte:head>
 
 <Navbar />

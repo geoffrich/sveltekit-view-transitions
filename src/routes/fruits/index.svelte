@@ -11,6 +11,10 @@
 	prepareTransitionToPage();
 </script>
 
+<svelte:head>
+	<title>Fruits</title>
+</svelte:head>
+
 <div class={'flex-col items-center justify-center py-4 px-4'}>
 	<h1 class="my-4 text-xl">List of fruits</h1>
 
