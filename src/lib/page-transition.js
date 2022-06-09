@@ -1,6 +1,7 @@
 import { afterNavigate, beforeNavigate } from '$app/navigation';
-import { setContext, getContext, hasContext } from 'svelte';
+import { setContext, getContext, hasContext, onDestroy } from 'svelte';
 import { writable } from 'svelte/store';
+import reducedMotion from './reduced-motion';
 
 const contextKey = 'transition';
 
@@ -9,22 +10,19 @@ export function initTransitionContext() {
 	return setContext(contextKey, writable({}));
 }
 
-export function getTransitionContext() {
+function getTransitionContext() {
 	if (!hasContext(contextKey)) {
 		return initTransitionContext();
 	}
 	return getContext(contextKey);
 }
 
-// Call this hook on this first page before you start the page transition.
-// For Shared Element Transitions, you need to call the transition.start()
-// method before the next page begins to render, and you need to do the
-// Document Object Model (DOM) modification or setting of new shared
-// elements inside the callback so that this hook returns the promise and
-// defers to the callback resolve.
 export const preparePageTransition = () => {
 	const transitionStore = getTransitionContext();
 	let unsub;
+	let isReducedMotionEnabled;
+
+	let unsubReducedMotion = reducedMotion.subscribe((val) => (isReducedMotionEnabled = val));
 
 	function updateStore(key, value) {
 		transitionStore.update((current) => ({
@@ -38,7 +36,7 @@ export const preparePageTransition = () => {
 		unsub?.(); // clean up previous subscription
 
 		// Feature detection
-		if (!document.createDocumentTransition) {
+		if (!document.createDocumentTransition || isReducedMotionEnabled) {
 			return;
 		}
 
@@ -55,6 +53,8 @@ export const preparePageTransition = () => {
 
 	afterNavigate(({ to }) => {
 		const transitionKey = to.pathname;
+		// we need to subscribe to prevent race conditions
+		// sometimes this runs before the store is updated with the new transition
 		unsub = transitionStore.subscribe((transitions) => {
 			const transition = transitions[transitionKey];
 			if (!transition) {
@@ -63,5 +63,10 @@ export const preparePageTransition = () => {
 			const { resolver } = transition;
 			resolver();
 		});
+	});
+
+	onDestroy(() => {
+		unsub?.();
+		unsubReducedMotion();
 	});
 };

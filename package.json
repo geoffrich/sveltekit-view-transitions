@@ -1,5 +1,5 @@
 {
-	"name": "sveltekit-shared-element-transitions-codelab",
+	"name": "sveltekit-shared-element-transitions",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "svelte-kit dev",
