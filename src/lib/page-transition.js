@@ -1,24 +1,10 @@
 import { afterNavigate, beforeNavigate } from '$app/navigation';
-import { setContext, getContext, hasContext, onDestroy } from 'svelte';
+import { onDestroy } from 'svelte';
 import { writable } from 'svelte/store';
 import reducedMotion from './reduced-motion';
 
-const contextKey = 'transition';
-
-export function initTransitionContext() {
-	if (hasContext(contextKey)) return getContext(contextKey);
-	return setContext(contextKey, writable({}));
-}
-
-function getTransitionContext() {
-	if (!hasContext(contextKey)) {
-		return initTransitionContext();
-	}
-	return getContext(contextKey);
-}
-
 export const preparePageTransition = () => {
-	const transitionStore = getTransitionContext();
+	const transitionStore = writable({});
 	let unsub;
 	let isReducedMotionEnabled;
 
