@@ -5,7 +5,7 @@ const contextKey = 'transition';
 
 export function initTransitionContext() {
 	if (hasContext(contextKey)) return getContext(contextKey);
-	return setContext(contextKey, writable(null));
+	return setContext(contextKey, writable({}));
 }
 
 export function getTransitionContext() {
