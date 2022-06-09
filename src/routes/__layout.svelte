@@ -2,8 +2,7 @@
 	import '../app.css';
 	import Navbar from '$lib/Navbar.svelte';
 	import Footer from '$lib/Footer.svelte';
-	import { initTransitionContext } from '$lib/utils/resource-context';
-	import { preparePageTransition } from '$lib/utils/use-page-transition';
+	import { initTransitionContext, preparePageTransition } from '$lib/utils/page-transition';
 
 	initTransitionContext();
 	preparePageTransition();

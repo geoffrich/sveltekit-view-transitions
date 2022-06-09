@@ -8,7 +8,7 @@
 	<p class="mt-4 text-xl">
 		SvelteKit version of the <a
 			href="https://codelabs.developers.google.com/create-an-instant-and-seamless-web-app#5"
-			>Shared Element Transitions Google CodeLab</a
+			class="underline">Shared Element Transitions Google CodeLab</a
 		>. Only works in Chrome Canary with the documentTransition API flag enabled and may break at any
 		time due to the API changing.
 	</p>

@@ -1,5 +1,20 @@
 import { afterNavigate, beforeNavigate } from '$app/navigation';
-import { getTransitionContext } from '$lib/utils/resource-context';
+import { setContext, getContext, hasContext } from 'svelte';
+import { writable } from 'svelte/store';
+
+const contextKey = 'transition';
+
+export function initTransitionContext() {
+	if (hasContext(contextKey)) return getContext(contextKey);
+	return setContext(contextKey, writable({}));
+}
+
+export function getTransitionContext() {
+	if (!hasContext(contextKey)) {
+		return initTransitionContext();
+	}
+	return getContext(contextKey);
+}
 
 // Call this hook on this first page before you start the page transition.
 // For Shared Element Transitions, you need to call the transition.start()
@@ -11,9 +26,16 @@ export const preparePageTransition = () => {
 	const transitionStore = getTransitionContext();
 	let unsub;
 
+	function updateStore(key, value) {
+		transitionStore.update((current) => ({
+			...current,
+			[key]: value
+		}));
+	}
+
 	// before navigating, start a new transition
 	beforeNavigate(({ to }) => {
-		unsub?.();
+		unsub?.(); // clean up previous subscription
 
 		// Feature detection
 		if (!document.createDocumentTransition) {
@@ -23,16 +45,11 @@ export const preparePageTransition = () => {
 		const transitionKey = to.pathname;
 		const transition = document.createDocumentTransition();
 		transition.start(async () => {
+			// set transition data for afterNavigate hook to pick up
 			await new Promise((resolver) => {
-				transitionStore.update((current) => ({
-					...current,
-					[transitionKey]: { transition, resolver }
-				}));
+				updateStore(transitionKey, { transition, resolver });
 			});
-			transitionStore.update((current) => ({
-				...current,
-				[transitionKey]: null
-			}));
+			updateStore(transitionKey, null);
 		});
 	});
 
