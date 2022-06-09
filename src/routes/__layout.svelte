@@ -7,10 +7,6 @@
 	initTransitionContext();
 </script>
 
-<svelte:head>
-	<title>Shared Element Transitions in SvelteKit</title>
-</svelte:head>
-
 <Navbar />
 <main class="text-slate-700 max-w-4xl m-auto">
 	<slot />

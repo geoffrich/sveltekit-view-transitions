@@ -1,8 +1,6 @@
 import { afterNavigate, beforeNavigate } from '$app/navigation';
 import { getTransitionContext } from '$lib/utils/resource-context';
 import { onDestroy } from 'svelte';
-import { get } from 'svelte/store';
-import { page as pageStore } from '$app/stores';
 
 // Call this hook on this first page before you start the page transition.
 // For Shared Element Transitions, you need to call the transition.start()
@@ -16,7 +14,7 @@ export const prepareTransitionFromPage = () => {
 	beforeNavigate(({ to }) => {
 		// Feature detection
 		if (!document.createDocumentTransition) {
-			return null;
+			return;
 		}
 
 		const transitionKey = to.pathname;
@@ -28,6 +26,10 @@ export const prepareTransitionFromPage = () => {
 					[transitionKey]: { transition, resolver }
 				}));
 			});
+			transitionStore.update((current) => ({
+				...current,
+				[transitionKey]: null
+			}));
 		});
 	});
 };
@@ -39,11 +41,10 @@ export const prepareTransitionFromPage = () => {
 // shared elements.
 export const prepareTransitionToPage = () => {
 	const transitionStore = getTransitionContext();
-	const page = get(pageStore);
-	const transitionKey = page.url.pathname;
 	let unsub;
 
-	afterNavigate(() => {
+	afterNavigate(({ to }) => {
+		const transitionKey = to.pathname;
 		unsub = transitionStore.subscribe((transitions) => {
 			const transition = transitions[transitionKey];
 			if (!transition) {
@@ -56,9 +57,5 @@ export const prepareTransitionToPage = () => {
 
 	onDestroy(() => {
 		unsub?.();
-		transitionStore.update((current) => ({
-			...current,
-			[transitionKey]: null
-		}));
 	});
 };
