@@ -3,7 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.shared-element {
+.shared-element,
+[style*='--transition-tag'] {
 	contain: paint;
 	page-transition-tag: var(--transition-tag);
 }
