@@ -1,58 +1,65 @@
-import { afterNavigate, beforeNavigate } from '$app/navigation';
+import { beforeNavigate } from '$app/navigation';
+import { navigating } from '$app/stores';
 import { onDestroy } from 'svelte';
-import { writable } from 'svelte/store';
 import reducedMotion from './reduced-motion';
 
+function getNavigationStore() {
+	/** @type {((val?: any) => void)[]} */
+	let callbacks = [];
+
+	const navigation = {
+		...navigating,
+		complete: async () => {
+			await new Promise((res, _) => {
+				callbacks.push(res);
+			});
+		}
+	};
+
+	// This used to subscribe inside the callback, but that resolved the promise too early
+	const unsub = navigating.subscribe((n) => {
+		if (n === null) {
+			while (callbacks.length > 0) {
+				const res = callbacks.pop();
+				res();
+			}
+		}
+	});
+
+	onDestroy(() => {
+		unsub();
+	});
+
+	return navigation;
+}
+
 export const preparePageTransition = () => {
-	const transitionStore = writable({});
-	let unsub;
+	const navigation = getNavigationStore();
 	let isReducedMotionEnabled;
 
 	let unsubReducedMotion = reducedMotion.subscribe((val) => (isReducedMotionEnabled = val));
 
-	function updateStore(key, value) {
-		transitionStore.update((current) => ({
-			...current,
-			[key]: value
-		}));
-	}
-
 	// before navigating, start a new transition
-	beforeNavigate(({ to }) => {
-		unsub?.(); // clean up previous subscription
-
+	beforeNavigate(() => {
 		// Feature detection
 		if (!document.createDocumentTransition || isReducedMotionEnabled) {
 			return;
 		}
 
-		const transitionKey = to.pathname;
-		const transition = document.createDocumentTransition();
-		transition.start(async () => {
-			// set transition data for afterNavigate hook to pick up
-			await new Promise((resolver) => {
-				updateStore(transitionKey, { transition, resolver });
+		try {
+			const transition = document.createDocumentTransition();
+			// init before transition.start so the promise doesn't resolve early
+			const navigationComplete = navigation.complete();
+			transition.start(async () => {
+				await navigationComplete;
 			});
-			updateStore(transitionKey, null);
-		});
-	});
-
-	afterNavigate(({ to }) => {
-		const transitionKey = to.pathname;
-		// we need to subscribe to prevent race conditions
-		// sometimes this runs before the store is updated with the new transition
-		unsub = transitionStore.subscribe((transitions) => {
-			const transition = transitions[transitionKey];
-			if (!transition) {
-				return;
-			}
-			const { resolver } = transition;
-			resolver();
-		});
+		} catch (e) {
+			// without the catch, we could throw in beforeNavigate and prevent navigation
+			console.error(e);
+		}
 	});
 
 	onDestroy(() => {
-		unsub?.();
 		unsubReducedMotion();
 	});
 };
