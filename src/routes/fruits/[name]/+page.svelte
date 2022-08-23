@@ -1,8 +1,7 @@
 <script>
-	export let name;
-	export let image;
-	export let amountPer;
-	export let nutrition;
+	export let data;
+
+	$: ({ name, image, amountPer, nutrition } = data);
 
 	import Nutrition from '$lib/Nutrition.svelte';
 </script>

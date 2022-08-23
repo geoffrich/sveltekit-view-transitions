@@ -99,11 +99,9 @@ const fruits = [
 	}
 ];
 
-export const GET = function () {
+export const load = function () {
 	return {
-		body: {
-			items: fruits
-		}
+		items: fruits
 	};
 };
 

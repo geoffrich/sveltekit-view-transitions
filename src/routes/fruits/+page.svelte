@@ -1,5 +1,5 @@
 <script>
-	export let items;
+	export let data;
 
 	import ListItem from '$lib/ListItem.svelte';
 </script>
@@ -12,7 +12,7 @@
 	<h1 class="my-4 text-xl">List of fruits</h1>
 
 	<ul class="divide-y-2 divide-gray-100">
-		{#each items as item (`f-${item.name}`)}
+		{#each data.items as item (`f-${item.name}`)}
 			<ListItem {item} href={`/fruits/${item.name}`} />
 		{/each}
 	</ul>
