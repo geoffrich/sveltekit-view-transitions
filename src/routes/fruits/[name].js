@@ -6,7 +6,7 @@ for (const item of fruits) {
 	map[key] = item;
 }
 
-export const get = function (req) {
+export const GET = function (req) {
 	const { name } = req.params;
 	if (map[name]) {
 		return {

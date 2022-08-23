@@ -99,7 +99,7 @@ const fruits = [
 	}
 ];
 
-export const get = function () {
+export const GET = function () {
 	return {
 		body: {
 			items: fruits
