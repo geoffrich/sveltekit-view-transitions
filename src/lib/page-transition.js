@@ -35,11 +35,14 @@ function getNavigationStore() {
 
 /**
  * @callback pageTransitionCallback
- * @param {{ from: URL, to: URL, type: TransitionType}} nav
+ * @param {{ from: URL, to: URL, type: string}} nav
  */
 
+/** @type {Set<pageTransitionCallback>} */
 const beforeCallbacks = new Set(); // before transition starts
+/** @type {Set<pageTransitionCallback>} */
 const afterCallbacks = new Set(); // after transition has completed
+/** @type {Set<pageTransitionCallback>} */
 const incomingCallbacks = new Set(); // when new page is loaded but transition has not completed
 
 /**
@@ -91,10 +94,10 @@ export const preparePageTransition = (getType = (_from, _to) => null) => {
 			return;
 		}
 
-		const type = getType(from.pathname, to?.pathname ?? '');
+		const type = getType(from.url.pathname, to?.url.pathname ?? '');
 		try {
 			const transition = document.createDocumentTransition();
-			const payload = { from, to, type };
+			const payload = { from: from.url, to: to?.url, type };
 			beforeCallbacks.forEach((fn) => fn(payload));
 			// init before transition.start so the promise doesn't resolve early
 			const navigationComplete = navigation.complete();

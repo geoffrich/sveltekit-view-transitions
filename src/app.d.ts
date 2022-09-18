@@ -8,3 +8,15 @@ declare namespace App {
 	// interface Session {}
 	// interface Stuff {}
 }
+
+interface DocumentTransition {
+	start(setupPromise: () => Promise<void> | void): Promise<void>;
+}
+
+interface Document {
+	createDocumentTransition(): DocumentTransition;
+}
+
+interface CSSStyleDeclaration {
+	pageTransitionTag: string;
+}
