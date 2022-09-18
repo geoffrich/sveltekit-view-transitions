@@ -11,7 +11,6 @@
 			{src}
 			width="80"
 			style:height="80px"
-			style:--transition-tag={name}
 			alt={`picture of ${name}`}
 		/>
 	</div>
