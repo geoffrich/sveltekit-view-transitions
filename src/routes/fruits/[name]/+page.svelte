@@ -19,9 +19,9 @@
 			width="240"
 			style:height="240px"
 			alt={`picture of ${name}`}
-			style:--transition-tag={name}
+			style:--tag={name}
 		/>
-		<h1 class="text-4xl font-bold mt-4" style:--transition-tag="h-{name}">{name}</h1>
+		<h1 class="text-4xl font-bold mt-4" style:--tag="h-{name}">{name}</h1>
 	</div>
 
 	<div class="sm:w-2/4 w-full">
