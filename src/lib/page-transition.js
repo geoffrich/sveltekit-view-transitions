@@ -1,7 +1,6 @@
 import { beforeNavigate } from '$app/navigation';
 import { navigating } from '$app/stores';
 import { onDestroy } from 'svelte';
-import reducedMotion from './reduced-motion';
 
 function getNavigationStore() {
 	/** @type {((val?: any) => void)[]} */
@@ -35,14 +34,11 @@ function getNavigationStore() {
 
 export const preparePageTransition = () => {
 	const navigation = getNavigationStore();
-	let isReducedMotionEnabled = false;
-
-	let unsubReducedMotion = reducedMotion.subscribe((val) => (isReducedMotionEnabled = val));
 
 	// before navigating, start a new transition
 	beforeNavigate(() => {
 		// Feature detection
-		if (!document.createDocumentTransition || isReducedMotionEnabled) {
+		if (!document.createDocumentTransition) {
 			return;
 		}
 
@@ -57,9 +53,5 @@ export const preparePageTransition = () => {
 			// without the catch, we could throw in beforeNavigate and prevent navigation
 			console.error(e);
 		}
-	});
-
-	onDestroy(() => {
-		unsubReducedMotion();
 	});
 };
