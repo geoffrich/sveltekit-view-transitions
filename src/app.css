@@ -3,7 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-[style*='--tag'] {
-	contain: paint;
-	page-transition-tag: var(--tag);
+/* Only do the FLIP-style animations when no reduced-motion preference */
+@media (prefers-reduced-motion: no-preference) {
+	[style*='--tag'] {
+		view-transition-name: var(--tag);
+	}
 }

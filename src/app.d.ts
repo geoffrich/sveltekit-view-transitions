@@ -9,12 +9,15 @@ declare namespace App {
 	// interface Stuff {}
 }
 
-interface DocumentTransition {
-	start(setupPromise: () => Promise<void> | void): Promise<void>;
+interface ViewTransition {
+	updateCallbackDone: Promise<void>;
+	ready: Promise<void>;
+	finished: Promise<void>;
+	skipTransition: () => void;
 }
 
 interface Document {
-	createDocumentTransition(): DocumentTransition;
+	startViewTransition(updateCallback: () => Promise<void>): ViewTransition;
 }
 
 interface CSSStyleDeclaration {
