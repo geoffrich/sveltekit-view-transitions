@@ -21,5 +21,5 @@ interface Document {
 }
 
 interface CSSStyleDeclaration {
-	pageTransitionTag: string;
+	viewTransitionName: string;
 }
