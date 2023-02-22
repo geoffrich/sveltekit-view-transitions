@@ -1,4 +1,4 @@
-import { fruits } from '../+page.server.js';
+import fruits from '$lib/fruits';
 import { error } from '@sveltejs/kit';
 
 const map = {};

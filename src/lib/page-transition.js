@@ -37,21 +37,13 @@ export const preparePageTransition = () => {
 
 	// before navigating, start a new transition
 	beforeNavigate(() => {
-		// Feature detection
-		if (!document.createDocumentTransition) {
+		if (!document.startViewTransition) {
 			return;
 		}
+		const navigationComplete = navigation.complete();
 
-		try {
-			const transition = document.createDocumentTransition();
-			// init before transition.start so the promise doesn't resolve early
-			const navigationComplete = navigation.complete();
-			transition.start(async () => {
-				await navigationComplete;
-			});
-		} catch (e) {
-			// without the catch, we could throw in beforeNavigate and prevent navigation
-			console.error(e);
-		}
+		document.startViewTransition(async () => {
+			await navigationComplete;
+		});
 	});
 };
