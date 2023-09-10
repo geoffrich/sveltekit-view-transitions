@@ -1,17 +1,5 @@
-# sveltekit-shared-element-transitions
+# sveltekit-view-transitions
 
-SvelteKit version of the [Shared Element Transitions Google CodeLab](https://codelabs.developers.google.com/create-an-instant-and-seamless-web-app#5). Only works in Chrome Canary with the `chrome://flags/#document-transition` flag enabled and may break at any time due to the API changing.
+Demo showing how to use [view transitions](https://developer.chrome.com/docs/web-platform/view-transitions/) in a SvelteKit app. A full writeup of how it works can be found [on my blog](https://geoffrich.net/posts/page-transitions-1/).
 
-## Additional features
-
-In porting this to Svelte, I also implemented some additional features.
-
-- Also transition the fruit page heading, in addition to the image
-- Transition _back_ to the list of fruits
-- Respect reduced motion by not playing the transition if reduced motion is enabled
-- Transition when the back/forward buttons are clicked (the original demo only used a link click as the trigger)
-
-## Bugs
-
-- layout shifts during transition
-- sveltekit:prefetch causes the page to transition from the top-right corner instead. not sure why.
+Originally based on the [Shared Element Transitions Google CodeLab](https://codelabs.developers.google.com/create-an-instant-and-seamless-web-app#5), but ported to SvelteKit.
